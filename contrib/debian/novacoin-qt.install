@@ -1,0 +1,5 @@
+MatrixCoin-qt usr/bin
+share/pixmaps/MatrixCoin32.xpm usr/share/pixmaps
+share/pixmaps/MatrixCoin80.xpm usr/share/pixmaps
+debian/MatrixCoin-qt.desktop usr/share/applications
+debian/MatrixCoin-qt.protocol usr/share/kde4/services/

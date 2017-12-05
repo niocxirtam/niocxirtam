@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=MatrixCoin
+Comment=MatrixCoin P2P Cryptocurrency
+Comment[ru]=MatrixCoin, P2P криптовалюта
+Comment[fr]=MatrixCoin, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=MatrixCoin, eşten eşe kriptografik sanal para birimi
+Exec=/usr/bin/MatrixCoin-qt
+Terminal=false
+Type=Application
+Icon=/usr/share/pixmaps/MatrixCoin80.xpm
+MimeType=x-scheme-handler/MatrixCoin;
+Categories=Office;

@@ -1,0 +1,11 @@
+[Unit]
+Description=MatrixCoin daemon serivce
+After=network.target
+
+[Service]
+Type=simple
+User=MatrixCoin
+ExecStart=/opt/MatrixCoin/MatrixCoind
+
+[Install]
+WantedBy=multi-user.target

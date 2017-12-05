@@ -1,0 +1,68 @@
+#!/bin/sh
+
+# PROVIDE: MatrixCoin
+# REQUIRE: LOGIN
+# KEYWORD: shutdown
+
+#
+# Add the following lines to /etc/rc.conf.local or /etc/rc.conf
+# to enable this service:
+#
+# MatrixCoin_enable (bool): Set to NO by default. Set this variable to YES if you want to enable MatrixCoin service.
+# MatrixCoin_config (path): Set to /usr/local/etc/MatrixCoin.conf by default.
+# MatrixCoin_user:  The user account MatrixCoin daemon runs as. It uses 'root' user by default.
+# MatrixCoin_group: The group account MatrixCoin daemon runs as. It uses 'wheel' group by default.
+# MatrixCoin_datadir (str): Default to "/var/db/MatrixCoin". Base data directory.
+
+. /etc/rc.subr
+
+name=MatrixCoin
+rcvar=MatrixCoin_enable
+
+: ${MatrixCoin_enable:=NO}
+: ${MatrixCoin_config=/usr/local/etc/MatrixCoin.conf}
+: ${MatrixCoin_datadir=/var/db/MatrixCoin}
+: ${MatrixCoin_user="root"}
+: ${MatrixCoin_group="wheel"}
+
+required_files=${MatrixCoin_config}
+command=/usr/local/bin/MatrixCoind
+MatrixCoin_chdir=${MatrixCoin_datadir}
+pidfile="${MatrixCoin_datadir}/MatrixCoind.pid"
+stop_cmd=MatrixCoin_stop
+command_args="-conf=${MatrixCoin_config} -datadir=${MatrixCoin_datadir} -daemon -pid=${pidfile}"
+start_precmd="${name}_prestart"
+
+MatrixCoin_create_datadir()
+{
+	echo "Creating data directory"
+	eval mkdir -p ${MatrixCoin_datadir}
+	[ $? -eq 0 ] && chown -R ${MatrixCoin_user}:${MatrixCoin_group} ${MatrixCoin_datadir}
+}
+
+MatrixCoin_prestart()
+{
+	if [ ! -d "${MatrixCoin_datadir}/." ]; then
+		MatrixCoin_create_datadir || return 1
+	fi
+}
+
+MatrixCoin_requirepidfile()
+{
+	if [ ! "0`check_pidfile ${pidfile} ${command}`" -gt 1 ]; then
+		echo "${name} not running? (check $pidfile)."
+		exit 1
+	fi
+}
+
+MatrixCoin_stop()
+{
+    MatrixCoin_requirepidfile
+
+	echo "Stopping ${name}."
+	eval ${command} -conf=${MatrixCoin_config} -datadir=${MatrixCoin_datadir} stop
+	wait_for_pids ${rc_pid}
+}
+
+load_rc_config $name
+run_rc_command "$1"

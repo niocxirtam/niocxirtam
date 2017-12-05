@@ -1,0 +1,11 @@
+[Protocol]
+exec=MatrixCoin-qt '%u'
+protocol=MatrixCoin
+input=none
+output=none
+helper=true
+listing=
+reading=false
+writing=false
+makedir=false
+deleting=false

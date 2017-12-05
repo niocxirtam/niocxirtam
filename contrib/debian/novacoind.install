@@ -1,0 +1,2 @@
+debian/bin/MatrixCoind usr/bin
+src/MatrixCoind usr/lib/MatrixCoin
